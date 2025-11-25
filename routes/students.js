@@ -1,58 +1,59 @@
-// routes/students.js
 const express = require('express');
 const router = express.Router();
 const Student = require('../models/Student');
 
-// CREATE a new student
+// Create a student
 router.post('/', async (req, res) => {
   try {
-    const student = await Student.create(req.body);
-    res.status(201).json(student);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const { firstName, lastName, email, age, currentCollege } = req.body;
+    const newStudent = new Student({ firstName, lastName, email, age, currentCollege });
+    const savedStudent = await newStudent.save();
+    res.status(201).json(savedStudent);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// READ all students
+// Get all students
 router.get('/', async (req, res) => {
   try {
     const students = await Student.find();
-    res.status(200).json(students);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// READ one student by ID
+// Get a single student
 router.get('/:id', async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
     if (!student) return res.status(404).json({ error: 'Student not found' });
-    res.status(200).json(student);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// UPDATE a student by ID
+// Update a student
 router.put('/:id', async (req, res) => {
   try {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!student) return res.status(404).json({ error: 'Student not found' });
-    res.status(200).json(student);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedStudent) return res.status(404).json({ error: 'Student not found' });
+    res.json(updatedStudent);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// DELETE a student by ID
+// Delete a student
 router.delete('/:id', async (req, res) => {
   try {
-    const student = await Student.findByIdAndDelete(req.params.id);
-    if (!student) return res.status(404).json({ error: 'Student not found' });
-    res.status(200).json({ message: 'Student deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const deletedStudent = await Student.findByIdAndDelete(req.params.id);
+    if (!deletedStudent) return res.status(404).json({ error: 'Student not found' });
+    res.json({ message: 'Student deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
