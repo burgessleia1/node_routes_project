@@ -1,0 +1,25 @@
+{
+  "name": "node_routes_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "dotenv": "^17.2.3",
+    "mongodb": "^7.0.0",
+    "nodemon": "^3.1.11",
+    "swagger-autogen": "^2.23.7"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mongoose": "^9.0.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
