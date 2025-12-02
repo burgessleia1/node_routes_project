@@ -1,12 +1,14 @@
-require('dotenv').config(); // ✅ Load .env variables at the very top
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const connectDB = require('./db/connect'); // your connect.js file
+const connectDB = require('./db/connect');
 const studentRoutes = require('./routes/students');
+const ttechRoute = require('./routes/ttech');
 
 app.use(express.json());
 app.use('/students', studentRoutes);
+app.use('/ttech', ttechRoute);
 
 const port = process.env.PORT || 3000;
 
@@ -20,5 +22,6 @@ const start = async () => {
 };
 
 start();
+
 
 
