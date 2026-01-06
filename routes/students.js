@@ -23,21 +23,24 @@ router.get('/', async (req, res) => {
   }
 });
 
-// READ one student by ID
+// READ a single student by ID
 router.get('/:id', async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
     if (!student) return res.status(404).json({ error: 'Student not found' });
     res.status(200).json(student);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: 'Invalid student ID' });
   }
 });
 
 // UPDATE a student by ID
 router.put('/:id', async (req, res) => {
   try {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+      new: true, // return the updated document
+      runValidators: true, // enforce schema validation
+    });
     if (!student) return res.status(404).json({ error: 'Student not found' });
     res.status(200).json(student);
   } catch (error) {
@@ -52,7 +55,7 @@ router.delete('/:id', async (req, res) => {
     if (!student) return res.status(404).json({ error: 'Student not found' });
     res.status(200).json({ message: 'Student deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: 'Invalid student ID' });
   }
 });
 
